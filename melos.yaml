@@ -1,0 +1,13 @@
+name: usholli
+
+packages:
+  - core/*
+
+scripts:
+  generate:
+    run: dart run melos exec -c 1 --depends-on build_runner -- dart run build_runner build
+    description: Generate code (injectable/json_serializable/go_router) di semua modul.
+
+  clean:
+    run: dart run melos clean && dart run melos exec -- \"flutter clean\"
+    description: Bersihkan semua build folder.
