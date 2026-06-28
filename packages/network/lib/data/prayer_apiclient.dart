@@ -2,8 +2,8 @@ import 'package:core/core.dart';
 import 'package:dio/dio.dart';
 import 'package:retrofit/retrofit.dart';
 
+import '../response/base/muslim_api_response.dart';
 import '../response/prayer_response.dart';
-import '../response/sholat_base_response.dart';
 import '../response/sholat_location.dart';
 
 part 'prayer_apiclient.g.dart';
@@ -14,13 +14,13 @@ abstract class PrayerApiClient {
   factory PrayerApiClient(Dio dio, {String baseUrl}) = _PrayerApiClient;
 
   @GET('/kabkota/find/{city}')
-  Future<SholatBaseResponse<List<SholatLocation>>> findCity(@Path('city') String city);
+  Future<MuslimApiResponse<List<SholatLocation>>> findCity(@Path('city') String city);
 
   @GET('/jadwal/{cityId}/today')
-  Future<SholatBaseResponse<PrayerResponse>> getPrayerTimeToday(@Path('cityId') String cityId);
+  Future<MuslimApiResponse<PrayerResponse>> getPrayerTimeToday(@Path('cityId') String cityId);
 
   @GET('/jadwal/{cityId}/{period}')
-  Future<SholatBaseResponse<PrayerResponse>> getPrayerTime(
+  Future<MuslimApiResponse<PrayerResponse>> getPrayerTime(
     @Path('cityId') String cityId,
     @Path('period') String period,
   );

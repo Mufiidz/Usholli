@@ -1,20 +1,13 @@
 import 'package:dio/dio.dart';
 
 import '../custom_error/network_exception.dart';
-import '../response/base_response.dart';
+import '../response/base/base_response.dart';
 import '../response/error_response.dart';
 
-extension FutureExt<T> on Future<BaseApiResponse<T>> {
+extension FutureExt<T extends ApiResponse> on Future<T> {
   Future<T> get awaitResponse async {
     try {
-      final BaseApiResponse<T> baseResponse = await this;
-      final T? data = baseResponse.data;
-
-      if (data == null) {
-        throw NetworkException('Data is null');
-      }
-
-      return data;
+      return await this;
     } on DioException catch (e) {
       final int? statusCode = e.response?.statusCode;
       throw switch (e.type) {
@@ -43,4 +36,8 @@ extension FutureExt<T> on Future<BaseApiResponse<T>> {
       throw NetworkException(e.toString());
     }
   }
+}
+
+extension FutureNetworkData<T> on Future<ApiDataResponse<T>> {
+  Future<T> get awaitData async => (await awaitResponse).getData();
 }
