@@ -7,6 +7,7 @@ import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 
 import '../data/calendar_apiclient.dart';
 import '../data/prayer_apiclient.dart';
+import '../data/quran_apiclient.dart';
 import '../interceptors/normalize_response_interceptor.dart';
 
 @module
@@ -44,4 +45,8 @@ abstract class NetworkModule {
   @lazySingleton
   CalendarApiClient calendarApiClient(Dio dio) =>
       CalendarApiClient(dio, baseUrl: '${Env.sholatBaseUrl}/cal');
+
+  @lazySingleton
+  QuranApiClient quranApiClient(Dio dio) =>
+      QuranApiClient(dio, baseUrl: '${Env.quranBaseUrl}/quran');
 }

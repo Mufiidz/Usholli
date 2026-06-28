@@ -23,4 +23,7 @@ abstract class ApiDataResponse<T> implements ApiResponse {
 @MappableClass()
 class BaseApiResponse<T> extends ApiDataResponse<T> {
   BaseApiResponse(super.data);
+
+  factory BaseApiResponse.fromJson(Map<String, dynamic> json) =>
+      BaseApiResponseMapper.fromJson(json);
 }
