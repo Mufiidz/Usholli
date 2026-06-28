@@ -32,7 +32,7 @@ class PrayerRepositoryImpl implements PrayerRepository {
         return localSholatLocation.id;
       }
 
-      final List<SholatLocation> response = await _prayerApiClient.findCity(city).awaitResponse;
+      final List<SholatLocation> response = await _prayerApiClient.findCity(city).awaitData;
 
       final SholatLocation? targetLocation = response.firstOrNull;
 
@@ -70,9 +70,7 @@ class PrayerRepositoryImpl implements PrayerRepository {
       return prayerTimes;
     }
 
-    final PrayerResponse response = await _prayerApiClient
-        .getPrayerTime(cityId, period)
-        .awaitResponse;
+    final PrayerResponse response = await _prayerApiClient.getPrayerTime(cityId, period).awaitData;
 
     final List<PrayerSchedule> prayerTimes = response.jadwal.mapEntries((key, value) {
       PrayerSchedule prayerSchedule = PrayerScheduleMapper.fromJson(value.toJson());
@@ -101,7 +99,7 @@ class PrayerRepositoryImpl implements PrayerRepository {
       return prayerTime;
     }
 
-    final PrayerResponse response = await _prayerApiClient.getPrayerTimeToday(cityId).awaitResponse;
+    final PrayerResponse response = await _prayerApiClient.getPrayerTimeToday(cityId).awaitData;
 
     AppLogger.d(this, 'PrayerResponse: $response');
     final String prayerDate = response.jadwal.keys.firstOrNull ?? now.toIsoDate;

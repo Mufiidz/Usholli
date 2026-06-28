@@ -29,8 +29,7 @@ class CalendarRepositoryImpl implements CalendarRepository {
     }
 
     final CalendarTodayResponse response = await _calendarApiClient
-        .getCalendarToday()
-        .awaitResponse;
+        .getCalendarToday().awaitData;
 
     CalendarTodayData hijriah = CalendarTodayDataMapper.fromJson(
       response.hijriah.toJson(),

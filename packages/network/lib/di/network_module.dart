@@ -7,6 +7,7 @@ import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 
 import '../data/calendar_apiclient.dart';
 import '../data/prayer_apiclient.dart';
+import '../interceptors/normalize_response_interceptor.dart';
 
 @module
 abstract class NetworkModule {
@@ -21,18 +22,26 @@ abstract class NetworkModule {
 
     final Dio dio = Dio(options);
 
+    dio.interceptors.add(NormalizeResponseInterceptor());
+
     if (kReleaseMode) return dio;
 
-    final PrettyDioLogger dioLogger = PrettyDioLogger(requestHeader: true, requestBody: true, responseBody: true);
+    final PrettyDioLogger dioLogger = PrettyDioLogger(
+      requestHeader: true,
+      requestBody: true,
+      responseBody: true,
+    );
 
-    dio.interceptors.addAll([dioLogger]);
+    dio.interceptors.add(dioLogger);
 
     return dio;
   }
 
   @lazySingleton
-  PrayerApiClient prayerApiClient(Dio dio) => PrayerApiClient(dio, baseUrl: '${Env.sholatBaseUrl}/sholat');
+  PrayerApiClient prayerApiClient(Dio dio) =>
+      PrayerApiClient(dio, baseUrl: '${Env.sholatBaseUrl}/sholat');
 
   @lazySingleton
-  CalendarApiClient calendarApiClient(Dio dio) => CalendarApiClient(dio, baseUrl: '${Env.sholatBaseUrl}/cal');
+  CalendarApiClient calendarApiClient(Dio dio) =>
+      CalendarApiClient(dio, baseUrl: '${Env.sholatBaseUrl}/cal');
 }
